@@ -2,9 +2,9 @@
 
 ## Overview
 
-This project demonstrates the deployment of an Active Directory home lab using Windows Server 2022 and a domain-joined Windows 10 endpoint. Windows Security logs were forwarded to Splunk to monitor authentication activity and investigate successful and failed logon events.
+This project demonstrates the deployment of an Active Directory home lab using Windows Server 2022 and a domain-joined Windows 10 endpoint. Windows Security logs were forwarded to Splunk Enterprise to monitor authentication activity and investigate successful and failed logon events.
 
-## Lab Components
+## Lab Architecture
 
 - Windows Server 2022 Domain Controller
 - Active Directory Domain Services (AD DS)
@@ -13,47 +13,79 @@ This project demonstrates the deployment of an Active Directory home lab using W
 - Splunk Enterprise
 - Splunk Universal Forwarder
 
-## Tasks Performed
+## Tasks Completed
 
-- Installed and configured Active Directory Domain Services
+- Installed Windows Server 2022
+- Configured Active Directory Domain Services
 - Created the `corp.local` domain
 - Configured DNS services
 - Created Organizational Units (OUs)
-- Created domain users
+- Created domain users (John Smith and Alice Brown)
 - Joined Windows 10 to the domain
+- Configured Splunk Universal Forwarder
 - Forwarded Windows Security logs to Splunk
 - Monitored authentication events
 
-## Detection Queries
+## Detection Use Cases
 
-### Failed Logons (4625)
+### Failed Logon Detection (4625)
 
 ```spl
 index=main source="WinEventLog:Security" EventCode=4625
 ```
 
-### Successful Logons (4624)
+### Successful Logon Detection (4624)
 
 ```spl
 index=main source="WinEventLog:Security" EventCode=4624
 ```
 
+### Authentication Monitoring
+
+```spl
+index=main source="WinEventLog:Security"
+| stats count by EventCode
+```
+
 ## Screenshots
 
-See the screenshots folder for:
-- Domain user authentication
-- Domain-joined client
-- Active Directory Users and Computers
-- DNS configuration
-- Failed logon detection
-- Successful logon detection
+### Domain User Authentication
+- Domain user logged in as CORP\jsmith
+
+### Domain Joined Client
+- Windows 10 successfully joined to corp.local
+
+### Active Directory Users and Computers
+- Employees OU
+- John Smith
+- Alice Brown
+
+### DNS Configuration
+- Forward Lookup Zone for corp.local
+
+### Failed Logon Detection
+- Event ID 4625 detected in Splunk
+
+### Successful Logon Detection
+- Event ID 4624 detected in Splunk
 
 ## Skills Demonstrated
 
 - Active Directory Administration
 - Windows Server 2022
 - DNS Management
+- Domain User Management
 - Windows Authentication
 - Splunk SIEM
 - Security Monitoring
 - Log Analysis
+- Authentication Event Detection
+
+## Technologies Used
+
+- Windows Server 2022
+- Windows 10
+- Active Directory Domain Services
+- DNS
+- Splunk Enterprise
+- Splunk Universal Forwarder
