@@ -1,6 +1,19 @@
+# Active Directory Detection Lab - Splunk Queries
+
+# 1. Failed Logon Events (Event ID 4625)
 index=main source="WinEventLog:Security" EventCode=4625
 
+# 2. Successful Logon Events (Event ID 4624)
 index=main source="WinEventLog:Security" EventCode=4624
 
-index=main source="WinEventLog:Security"
+# 3. Failed Logon Detection Table
+index=main source="WinEventLog:Security" EventCode=4625
 | table _time host Account_Name Workstation_Name Failure_Reason
+
+# 4. Authentication Event Statistics
+index=main source="WinEventLog:Security"
+| stats count by EventCode
+
+# 5. Authentication Event Timeline
+index=main source="WinEventLog:Security"
+| timechart count by EventCode
